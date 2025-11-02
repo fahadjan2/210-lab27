@@ -44,11 +44,11 @@ int main() {
 //Menu option, displays options and asks user for a choice
 int menu() {
     int choice;
-    cout << "1. Add Villager\n 2. Delete Villager\n 3. Increase Friendship\n4. Decrease Friendship\n5. Search for Villager\n6. Exit" << endl;
+    cout << "1. Add Villager\n2. Delete Villager\n3. Increase Friendship\n4. Decrease Friendship\n5. Search for Villager\n6. Exit" << endl;
     cout << "Choice: ";
     cin >> choice;
-    while (choice != 1 && choice != 2 && choice != 3 && choice != 4) {
-        cout << "Choice should be between 1-4" << endl;
+    while (choice != 1 && choice != 2 && choice != 3 && choice != 4 && choice != 5 && choice != 6) {
+        cout << "Choice should be between 1-6" << endl;
         cout << "Choice: ";
         cin >> choice;
     } 
@@ -96,7 +96,7 @@ void searchVillager(map<string, tuple<int, string, string>> &villagerData) {
     auto it = villagerData.find(searchKey);
     if (it != villagerData.end()) {
         cout << "\nFound " << searchKey << "'s data: ";
-        cout << get<0>(it->second) << " " << get<1>(it->second) << " " << get<2>(it->second) << endl;
+        cout << "[" << get<0>(it->second) << " " << get<1>(it->second) << " " << get<2>(it->second) << "]" << endl;
     } else
         cout << endl << searchKey << " not found." << endl;
 }
@@ -106,17 +106,16 @@ void addVillager(map<string, tuple<int, string, string>> &villagerData) {
     int friendship;
     string name, species, catchphrase;
 
-    if (villagerData.find(name) == villagerData.end()) //Name exists
-        return;
-
     cout << "Villager name: ";
     cin >> name;
+
     cout << "Friendship level: ";
     cin >> friendship;
     while (friendship > 10 || friendship < 0) {
         cout << "Enter friendship level between 0-10: ";
         cin >> friendship;
     }
+    
     cout << "Species: ";
     cin >> species;
     cout << "Catchphrase: ";
@@ -128,6 +127,14 @@ void addVillager(map<string, tuple<int, string, string>> &villagerData) {
 
 //Finds a villager in the map, then deletes their data
 void delVillager(map<string, tuple<int, string, string>> &villagerData) {
+    string name;
 
-    villagerData.erase("Raymond");
+    cout << "Villager name: ";
+    cin >> name;
+    
+    if (villagerData.find(name) == villagerData.end()) //Name doesnt exist
+        cout << name << " doesn't exist." << endl;
+        return;
+
+    villagerData.erase(name);
 }
