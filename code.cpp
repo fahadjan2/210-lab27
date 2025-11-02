@@ -6,6 +6,9 @@
 using namespace std;
 
 int menu();
+void display(map<string, tuple<int, string, string>> villagerData);
+void changeFriendship(map<string, tuple<int, string, string>> &villagerData, string);
+void searchVillager(map<string, tuple<int, string, string>> &villagerData);
 
 int main() {
     // declarations
@@ -16,26 +19,24 @@ int main() {
     villagerData["Raymond"] = make_tuple(7, "Human", "woohoo!");
     villagerData["Marshal"] = make_tuple(2, "Cat", "it's so over");
 
-    // access the map using a range-based for loop
-    cout << "Villagers and their data (range-based for loop):" << endl;
-    for (auto pair : villagerData) {
-        cout << pair.first << ": ";
-        cout << get<0>(pair.second) << " " << get<1>(pair.second) << " " << get<2>(pair.second) << endl;
+    cout << "Villager details:" << endl;
+    display(villagerData);
+    
+    int choice = 0;
+    while (choice != 4) {
+        choice = menu();
+        if (choice == 1) {
+            increaseFriendship(villagerData);
+        } else if (choice == 2) {
+
+        } else if (choice == 3) {
+            searchVillager(villagerData);
+        }
+
+        display(villagerData);
     }
-    int choice = menu();
     // delete an element
     villagerData.erase("Raymond");
-
-    // search for an element using .find() to avoid errors
-    string searchKey = "Audie";
-    auto it = villagerData.find(searchKey);
-    if (it != villagerData.end()) {  // the iterator points to beyond the end of the map
-                                       // if searchKey is not found
-        cout << "\nFound " << searchKey << "'s favorite colors: ";
-        cout << get<0>(it->second) << " " << get<1>(it->second) << " " << get<2>(it->second) << endl;
-        cout << endl;
-    } else
-        cout << endl << searchKey << " not found." << endl;
 
     // report size, clear, report size again to confirm map operations
     cout << "\nSize before clear: " << villagerData.size() << endl;
@@ -55,6 +56,37 @@ int menu() {
         cout << "Choice: ";
         cin >> choice;
     } 
+    cout << endl;
 
     return choice;
+}
+
+void display(map<string, tuple<int, string, string>> villagerData) {
+    for (auto pair : villagerData) {
+        cout << pair.first << ": ";
+        cout << get<0>(pair.second) << " " << get<1>(pair.second) << " " << get<2>(pair.second) << endl;
+    }
+}
+
+void changeFriendship(map<string, tuple<int, string, string>> &villagerData, string choice) {
+    string name;
+    cout << "Choose villager to increase friendship: ";
+    cin >> name;
+    
+
+}
+
+void searchVillager(map<string, tuple<int, string, string>> &villagerData) {
+    string searchKey;
+    cout << "Villager to search: ";
+    cin >> searchKey;
+    auto it = villagerData.find(searchKey);
+    if (it != villagerData.end()) {
+        cout << "\nFound " << searchKey << "'s data: ";
+        cout << get<0>(it->second) << " " << get<1>(it->second) << " " << get<2>(it->second) << endl;
+        cout << endl;
+    } else
+        cout << endl << searchKey << " not found." << endl;
+
+    return it;
 }
