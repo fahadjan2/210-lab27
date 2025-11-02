@@ -5,14 +5,16 @@
 #include <tuple>
 using namespace std;
 
+
+
 int main() {
     // declarations
-    map<string, tuple<string>> villagerData;
+    map<string, tuple<string, string, string>> villagerData;
 
     // insert elements into the map
-    villagerData["Audie"] = {5, "Human", "bazinga"};
-    villagerData["Raymond"] = {7, "Human", "woohoo!"};
-    villagerData["Marshal"] = {2, "Cat", "it's so over"};
+    villagerData["Audie"] = make_tuple(5, "Human", "bazinga");
+    villagerData["Raymond"] = make_tuple(7, "Human", "woohoo!");
+    villagerData["Marshal"] = make_tuple(2, "Cat", "it's so over");
 
     // access the map using a range-based for loop
     cout << "Villagers and their data (range-based for loop):" << endl;
