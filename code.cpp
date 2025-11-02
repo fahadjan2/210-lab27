@@ -5,11 +5,9 @@
 #include <tuple>
 using namespace std;
 
-
-
 int main() {
     // declarations
-    map<string, tuple<string, string, string>> villagerData;
+    map<string, tuple<int, string, string>> villagerData;
 
     // insert elements into the map
     villagerData["Audie"] = make_tuple(5, "Human", "bazinga");
@@ -20,20 +18,7 @@ int main() {
     cout << "Villagers and their data (range-based for loop):" << endl;
     for (auto pair : villagerData) {
         cout << pair.first << ": ";
-        for (auto value : pair.second)
-            cout << value << " ";
-        cout << endl;
-    }
-
-    // access the map using iterators
-    cout << "\nVillagers and their data (iterators):" << endl;
-    for (map<string, tuple<string>>::iterator it = villagerData.begin(); 
-                                               it != villagerData.end(); ++it) {
-        cout << it->first << ": ";
-        for (auto value : it->second) {
-            cout << value << " ";
-        }
-        cout << endl;
+        cout << get<0>(pair.second) << " " << get<1>(pair.second) << " " << get<2>(pair.second) << endl;
     }
 
     // delete an element
@@ -45,8 +30,7 @@ int main() {
     if (it != villagerData.end()) {  // the iterator points to beyond the end of the map
                                        // if searchKey is not found
         cout << "\nFound " << searchKey << "'s favorite colors: ";
-        for (auto value : it->second)  // range loop to traverse the value/vector
-            cout << value << " ";
+        cout << get<0>(it->second) << " " << get<1>(it->second) << " " << get<2>(it->second) << endl;
         cout << endl;
     } else
         cout << endl << searchKey << " not found." << endl;
