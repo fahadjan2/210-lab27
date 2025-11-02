@@ -20,28 +20,27 @@ int main() {
     villagerData["Marshal"] = make_tuple(2, "Cat", "it's so over");
 
     cout << "Villager details:" << endl;
-    display(villagerData);
-    
     int choice = 0;
     while (choice != 4) {
+        display(villagerData);
         choice = menu();
         if (choice == 1) {
-            increaseFriendship(villagerData);
+            changeFriendship(villagerData, "Increase");
         } else if (choice == 2) {
-
+            changeFriendship(villagerData, "Decrease");
         } else if (choice == 3) {
             searchVillager(villagerData);
         }
-
-        display(villagerData);
+        cout << endl;
     }
-    // delete an element
+    /* delete an element
     villagerData.erase("Raymond");
 
     // report size, clear, report size again to confirm map operations
     cout << "\nSize before clear: " << villagerData.size() << endl;
     villagerData.clear();
     cout << "Size after clear: " << villagerData.size() << endl;
+    */
 
     return 0;
 }
@@ -56,7 +55,6 @@ int menu() {
         cout << "Choice: ";
         cin >> choice;
     } 
-    cout << endl;
 
     return choice;
 }
@@ -66,16 +64,27 @@ void display(map<string, tuple<int, string, string>> villagerData) {
         cout << pair.first << ": ";
         cout << get<0>(pair.second) << " " << get<1>(pair.second) << " " << get<2>(pair.second) << endl;
     }
+    cout << endl;
 }
 
 void changeFriendship(map<string, tuple<int, string, string>> &villagerData, string choice) {
     string name;
     cout << "Choose villager to increase friendship: ";
     cin >> name;
-    
 
+    auto it = villagerData.find(name);
+    while (it == villagerData.end()) {
+        cout << "Not found. \n Choose villager to increase friendship: ";
+        cin >> name;
+    } 
+
+    if (choice == "Increase")
+        get<0>(it->second) += 1;
+    else if (choice == "Decrease")
+        get<0>(it->second) -= 1;
 }
 
+//Searches for villager through the map data, and then returns the iterator to the villager if found
 void searchVillager(map<string, tuple<int, string, string>> &villagerData) {
     string searchKey;
     cout << "Villager to search: ";
@@ -84,9 +93,6 @@ void searchVillager(map<string, tuple<int, string, string>> &villagerData) {
     if (it != villagerData.end()) {
         cout << "\nFound " << searchKey << "'s data: ";
         cout << get<0>(it->second) << " " << get<1>(it->second) << " " << get<2>(it->second) << endl;
-        cout << endl;
     } else
         cout << endl << searchKey << " not found." << endl;
-
-    return it;
 }
